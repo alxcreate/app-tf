@@ -32,9 +32,6 @@ resource "yandex_kubernetes_cluster" "kubernetes-cluster" {
 resource "yandex_kubernetes_node_group" "kubernetes-nodes-a1" {
   cluster_id = yandex_kubernetes_cluster.kubernetes-cluster.id
   name       = "kubernetes-nodes-a1"
-    metadata {
-    name = "kubernetes-node-${count.index + 1}-${yandex_vpc_subnet.subnet-a1.name}"
-  }
   allocation_policy {
     location {
       zone = yandex_vpc_subnet.subnet-a1.zone
@@ -42,6 +39,7 @@ resource "yandex_kubernetes_node_group" "kubernetes-nodes-a1" {
   }
   instance_template {
     platform_id = "standard-v1"
+    name = "kubernetes-node-${yandex_vpc_subnet.subnet-a1.name}-${instance.short_id}"
     network_interface {
       nat        = true
       subnet_ids = ["${yandex_vpc_subnet.subnet-a1.id}"]
@@ -67,9 +65,6 @@ resource "yandex_kubernetes_node_group" "kubernetes-nodes-a1" {
 resource "yandex_kubernetes_node_group" "kubernetes-nodes-b1" {
   cluster_id = yandex_kubernetes_cluster.kubernetes-cluster.id
   name       = "kubernetes-nodes-b1"
-    metadata {
-    name = "kubernetes-node-${count.index + 1}-${yandex_vpc_subnet.subnet-a1.name}"
-  }
   allocation_policy {
     location {
       zone = yandex_vpc_subnet.subnet-b1.zone
@@ -77,6 +72,7 @@ resource "yandex_kubernetes_node_group" "kubernetes-nodes-b1" {
   }
   instance_template {
     platform_id = "standard-v1"
+    name = "kubernetes-node-${yandex_vpc_subnet.subnet-a1.name}-${instance.short_id}"
     network_interface {
       nat        = true
       subnet_ids = ["${yandex_vpc_subnet.subnet-b1.id}"]
@@ -102,9 +98,6 @@ resource "yandex_kubernetes_node_group" "kubernetes-nodes-b1" {
 resource "yandex_kubernetes_node_group" "kubernetes-nodes-c1" {
   cluster_id = yandex_kubernetes_cluster.kubernetes-cluster.id
   name       = "kubernetes-nodes-c1"
-    metadata {
-    name = "kubernetes-node-${count.index + 1}-${yandex_vpc_subnet.subnet-a1.name}"
-  }
   allocation_policy {
     location {
       zone = yandex_vpc_subnet.subnet-c1.zone
@@ -112,6 +105,7 @@ resource "yandex_kubernetes_node_group" "kubernetes-nodes-c1" {
   }
   instance_template {
     platform_id = "standard-v1"
+    name = "kubernetes-node-${yandex_vpc_subnet.subnet-a1.name}-${instance.short_id}"
     network_interface {
       nat        = true
       subnet_ids = ["${yandex_vpc_subnet.subnet-c1.id}"]
