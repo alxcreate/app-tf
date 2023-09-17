@@ -4,16 +4,16 @@ resource "yandex_kubernetes_cluster" "kubernetes-cluster" {
     regional {
       region = "ru-central1"
       location {
-        zone      = yandex_vpc_subnet.subnet-a1.zone
-        subnet_id = yandex_vpc_subnet.subnet-a1.id
+        zone      = yandex_vpc_subnet.subnet-a.zone
+        subnet_id = yandex_vpc_subnet.subnet-a.id
       }
       location {
-        zone      = yandex_vpc_subnet.subnet-b1.zone
-        subnet_id = yandex_vpc_subnet.subnet-b1.id
+        zone      = yandex_vpc_subnet.subnet-b.zone
+        subnet_id = yandex_vpc_subnet.subnet-b.id
       }
       location {
-        zone      = yandex_vpc_subnet.subnet-c1.zone
-        subnet_id = yandex_vpc_subnet.subnet-c1.id
+        zone      = yandex_vpc_subnet.subnet-c.zone
+        subnet_id = yandex_vpc_subnet.subnet-c.id
       }
     }
     public_ip = true
@@ -29,20 +29,20 @@ resource "yandex_kubernetes_cluster" "kubernetes-cluster" {
   ]
 }
 # Группа нод в subnet-a1
-resource "yandex_kubernetes_node_group" "kubernetes-nodes-a1" {
+resource "yandex_kubernetes_node_group" "kubernetes-nodes-a" {
   cluster_id = yandex_kubernetes_cluster.kubernetes-cluster.id
-  name       = "kubernetes-nodes-a1"
+  name       = "kubernetes-group-a"
   allocation_policy {
     location {
-      zone = yandex_vpc_subnet.subnet-a1.zone
+      zone = yandex_vpc_subnet.subnet-a.zone
     }
   }
   instance_template {
     platform_id = "standard-v1"
-    name = "kubernetes-node-${yandex_vpc_subnet.subnet-a1.name}-{instance.short_id}"
+    name = "kubernetes-node-a-{instance.short_id}"
     network_interface {
       nat        = true
-      subnet_ids = ["${yandex_vpc_subnet.subnet-a1.id}"]
+      subnet_ids = ["${yandex_vpc_subnet.subnet-a.id}"]
     }
     resources {
       cores = 2
@@ -62,20 +62,20 @@ resource "yandex_kubernetes_node_group" "kubernetes-nodes-a1" {
   }
 }
 # Группа нод в subnet-b1
-resource "yandex_kubernetes_node_group" "kubernetes-nodes-b1" {
+resource "yandex_kubernetes_node_group" "kubernetes-nodes-b" {
   cluster_id = yandex_kubernetes_cluster.kubernetes-cluster.id
-  name       = "kubernetes-nodes-b1"
+  name       = "kubernetes-nodes-b"
   allocation_policy {
     location {
-      zone = yandex_vpc_subnet.subnet-b1.zone
+      zone = yandex_vpc_subnet.subnet-b.zone
     }
   }
   instance_template {
     platform_id = "standard-v1"
-    name = "kubernetes-node-${yandex_vpc_subnet.subnet-a1.name}-{instance.short_id}"
+    name = "kubernetes-node-b-{instance.short_id}"
     network_interface {
       nat        = true
-      subnet_ids = ["${yandex_vpc_subnet.subnet-b1.id}"]
+      subnet_ids = ["${yandex_vpc_subnet.subnet-b.id}"]
     }
     resources {
       cores = 2
@@ -95,20 +95,20 @@ resource "yandex_kubernetes_node_group" "kubernetes-nodes-b1" {
   }
 }
 # Группа нод в subnet-c1
-resource "yandex_kubernetes_node_group" "kubernetes-nodes-c1" {
+resource "yandex_kubernetes_node_group" "kubernetes-nodes-c" {
   cluster_id = yandex_kubernetes_cluster.kubernetes-cluster.id
-  name       = "kubernetes-nodes-c1"
+  name       = "kubernetes-group-c"
   allocation_policy {
     location {
-      zone = yandex_vpc_subnet.subnet-c1.zone
+      zone = yandex_vpc_subnet.subnet-c.zone
     }
   }
   instance_template {
     platform_id = "standard-v1"
-    name = "kubernetes-node-${yandex_vpc_subnet.subnet-a1.name}-{instance.short_id}"
+    name = "kubernetes-node-c-{instance.short_id}"
     network_interface {
       nat        = true
-      subnet_ids = ["${yandex_vpc_subnet.subnet-c1.id}"]
+      subnet_ids = ["${yandex_vpc_subnet.subnet-c.id}"]
     }
     resources {
       cores = 2
