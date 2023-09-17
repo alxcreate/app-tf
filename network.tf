@@ -1,7 +1,7 @@
 resource "yandex_vpc_network" "vpc-network" {
   name = "vpc-network"
 }
-# Subnets for my-app
+
 resource "yandex_vpc_subnet" "subnet-a" {
   name           = "subnet-a"
   zone           = "ru-central1-a"
